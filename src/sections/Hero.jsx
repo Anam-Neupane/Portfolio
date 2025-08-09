@@ -1,4 +1,5 @@
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
+import { usePageTransition } from '../components/PageTransition'
 import { motion } from 'framer-motion'
 
 const title = "Hi, I'm Anam Neupane"
@@ -18,23 +19,94 @@ const child = {
 
 const Hero = () => {
   const [overlayLocked, setOverlayLocked] = useState(false)
+  const [showHint, setShowHint] = useState(true)
+  const { startPageTransition } = usePageTransition()
+  const rafRef = useRef(0)
 
   const enableOverlay = () => {
+    // Add smooth transition for overlay activation
     document.body.style.setProperty(
       '--hero-overlay-image',
       "url('/assets/anime-character-near-galaxy-planet-illustration.jpg')"
     )
     document.body.classList.add('hero-overlay-active')
+    
+    // Ensure smooth transition by adding a brief delay
+    requestAnimationFrame(() => {
+      document.body.style.setProperty('--hero-overlay-opacity', '0.14')
+    })
   }
 
   const disableOverlay = () => {
-    document.body.style.setProperty('--hero-overlay-scale', '1')
-    document.body.classList.remove('hero-overlay-active')
+    // Smooth transition for overlay deactivation
+    document.body.style.setProperty('--hero-overlay-opacity', '0')
+    
+    // Remove class after transition completes
+    setTimeout(() => {
+      document.body.classList.remove('hero-overlay-active')
+      document.body.style.removeProperty('--hero-overlay-image')
+      document.body.style.removeProperty('--hero-overlay-opacity')
+    }, 300)
   }
 
+  // Update overlay background position on scroll to move towards the bottom (foot of image)
+  useEffect(() => {
+    const updateOverlayY = () => {
+      const doc = document.documentElement
+      const scrollTop = doc.scrollTop || window.pageYOffset
+      const max = Math.max(1, doc.scrollHeight - doc.clientHeight)
+      const ratio = Math.min(1, scrollTop / max)
+      const y = 50 + ratio * 35 // from 50% to ~85%
+      document.body.style.setProperty('--hero-overlay-y', `${y}%`)
+      rafRef.current = 0
+    }
+    const onScroll = () => {
+      if (rafRef.current) return
+      rafRef.current = requestAnimationFrame(updateOverlayY)
+    }
+    window.addEventListener('scroll', onScroll, { passive: true })
+    window.addEventListener('resize', onScroll)
+    // initialize
+    onScroll()
+    return () => {
+      window.removeEventListener('scroll', onScroll)
+      window.removeEventListener('resize', onScroll)
+      if (rafRef.current) cancelAnimationFrame(rafRef.current)
+      rafRef.current = 0
+    }
+  }, [])
+
+  // Show small double-click hint for a moment
+  useEffect(() => {
+    const timer = setTimeout(() => setShowHint(false), 5000)
+    return () => clearTimeout(timer)
+  }, [])
+
   return (
-    <div className="anime-gradient rounded-2xl border border-black-300 relative overflow-hidden gpu">
-      <div className="relative z-10 py-10 md:py-14 grid md:grid-cols-2 gap-8 items-center px-4 sm:px-6 md:px-8 content-auto">
+    <div className="anime-gradient rounded-2xl border border-black-300 relative overflow-hidden">
+      <div
+        className="relative z-10 py-10 md:py-14 grid md:grid-cols-2 gap-8 items-center px-4 sm:px-6 md:px-8"
+        onDoubleClick={() => {
+          if (overlayLocked) {
+            disableOverlay()
+            setOverlayLocked(false)
+          } else {
+            enableOverlay()
+            setOverlayLocked(true)
+          }
+        }}
+      >
+        {showHint && (
+          <motion.div
+            initial={{ opacity: 0, y: -6 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -6 }}
+            transition={{ duration: 0.35 }}
+            className="absolute top-3 right-3 z-20 bg-black-300/75 backdrop-blur-sm rounded-md px-3 py-1.5 text-xs text-white-600"
+          >
+            Double-click hero to set background
+          </motion.div>
+        )}
         <div className="max-w-xl pr-2 sm:pr-4 md:pr-6">
           <motion.h1 variants={container} initial="hidden" animate="show" className="hero_tag text-white whitespace-nowrap">
             {title.split('').map((ch, idx) => (
@@ -48,27 +120,48 @@ const Hero = () => {
           <br></br>Exploring AI & Machine Learning
           </p>
           <div className="mt-8 flex flex-wrap items-center gap-3 sm:gap-4">
-            <a href="#projects" className="btn">
+            <a
+              href="#projects"
+              className="btn"
+              onClick={(e) => {
+                e.preventDefault()
+                startPageTransition('#projects', e)
+              }}
+            >
               <span>View Projects</span>
               <img src="/assets/right-arrow.png" alt="arrow" className="w-4 h-4" />
             </a>
-            <a href="#experience" className="btn bg-black-500">
+            <a
+              href="#experience"
+              className="btn bg-black-500"
+              onClick={(e) => {
+                e.preventDefault()
+                startPageTransition('#experience', e)
+              }}
+            >
               <span>Experience</span>
             </a>
             <a href="https://github.com/Anam-Neupane" target="_blank" rel="noreferrer" className="btn">
               <span>GitHub</span>
             </a>
-            <a href="#contact" className="btn bg-black-500">
+            <a
+              href="#contact"
+              className="btn bg-black-500"
+              onClick={(e) => {
+                e.preventDefault()
+                startPageTransition('#contact', e)
+              }}
+            >
               <span>Contact</span>
             </a>
           </div>
         </div>
 
         <motion.div
-          initial={{ opacity: 0, y: 16 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.35 }}
-          transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
+           initial={{ opacity: 1, y: 0 }}
+           whileInView={{ opacity: 1, y: 0 }}
+           viewport={{ once: true }}
+           transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
           className="relative h-[260px] sm:h-[320px] md:h-[380px] lg:h-[420px]"
           onMouseEnter={() => { if (!overlayLocked) enableOverlay() }}
           onMouseLeave={() => { if (!overlayLocked) disableOverlay() }}
@@ -76,21 +169,13 @@ const Hero = () => {
           <div
             className="absolute inset-0 -z-10 cursor-pointer"
             aria-hidden
-            onClick={() => {
-              if (overlayLocked) {
-                disableOverlay()
-                setOverlayLocked(false)
-              } else {
-                enableOverlay()
-                setOverlayLocked(true)
-              }
-            }}
+            // background container intentionally has no double-click; handled on parent grid
           >
             <img src="/assets/anime-character-near-galaxy-planet-illustration.jpg" alt="background" className="w-full h-full object-cover" />
             <div className="absolute inset-0 pointer-events-none" style={{background:"radial-gradient(60% 60% at 50% 50%, rgba(0,0,0,0) 60%, rgba(0,0,0,0.5) 100%)"}} />
           </div>
-          <img src="/assets/ring.png" alt="rings" className="absolute -top-10 -right-10 sm:-top-20 sm:-right-20 w-56 sm:w-80 lg:w-80 opacity-35 animate-spin-slow hidden md:block" aria-hidden />
-          <img src="/assets/star1.png" alt="sparkle" className="absolute top-4 left-4 w-5 sm:w-6 opacity-70 animate-float hidden sm:block" aria-hidden />
+          <img src="/assets/ring.png" alt="rings" className="absolute -top-0 -right-0 sm:-top-0 sm:-right-10 w-56 sm:w-80 lg:w-80 opacity-35 animate-spin-slow hidden md:block" aria-hidden />
+          <img src="/assets/star1.png" alt="sparkle" className="absolute top-4 left-4 w-8 sm:w-10 opacity-70 animate-float hidden sm:block" aria-hidden />
 
           <div className="glass-card neon-border rounded-2xl p-4 md:p-6 flex items-center gap-5 absolute left-4 right-4 bottom-4 sm:left-6 sm:right-6 sm:bottom-6">
             <img

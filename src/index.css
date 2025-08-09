@@ -6,8 +6,9 @@
 
 @tailwind base;
 
+/* default smooth scrolling disabled; we control programmatically to avoid double-anim */
 * {
-  scroll-behavior: smooth;
+  scroll-behavior: auto;
 }
 
 body {
@@ -26,6 +27,37 @@ body {
   font-family: "General Sans", sans-serif;
 }
 
+/* Day theme override */
+body.day-theme {
+  --accent: 99, 102, 241; /* indigo */
+  background: radial-gradient(
+      1200px 600px at 15% 15%,
+      rgba(255, 255, 255, 0.06) 0%,
+      rgba(255, 255, 255, 0) 60%
+    ),
+    radial-gradient(
+      1000px 600px at 85% 20%,
+      rgba(255, 255, 255, 0.05) 0%,
+      rgba(255, 255, 255, 0) 60%
+    ),
+    linear-gradient(180deg, #141622 0%, #10131d 100%);
+}
+
+body.day-theme .navbar-glass {
+  background: rgba(28, 30, 42, 0.55);
+}
+
+body.day-theme .glass-card {
+  background: rgba(28, 30, 42, 0.72);
+}
+
+body.day-theme .neon-border {
+  box-shadow: 0 0 0 1px rgba(99, 102, 241, 0.25),
+    0 0 24px rgba(99, 102, 241, 0.12);
+}
+
+/* Removed transition/animation pausing to maintain continuous motion during nav */
+
 /* full-site hover overlay controlled by a body class */
 body.hero-overlay-active::before {
   content: "";
@@ -34,12 +66,51 @@ body.hero-overlay-active::before {
   z-index: 0;
   background-image: var(--hero-overlay-image);
   background-size: cover;
-  background-position: center;
-  opacity: 0.14;
-  will-change: opacity;
-  transition: opacity 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+  background-position: 50% var(--hero-overlay-y, 50%);
+  opacity: var(--hero-overlay-opacity, 0.14);
+  will-change: opacity, background-position;
+  transition: opacity 0.45s cubic-bezier(0.22, 1, 0.36, 1),
+    background-position 0.3s ease-out;
   pointer-events: none;
   filter: grayscale(15%);
+  /* soften top/bottom edges for better blend */
+  -webkit-mask-image: linear-gradient(
+    to bottom,
+    transparent 0%,
+    black 10%,
+    black 90%,
+    transparent 100%
+  );
+  mask-image: linear-gradient(
+    to bottom,
+    transparent 0%,
+    black 10%,
+    black 90%,
+    transparent 100%
+  );
+}
+
+/* Ensure app content is always above the body overlay */
+#root {
+  position: relative;
+  z-index: 1;
+}
+
+/* Prevent hero overlay from interfering with section backgrounds */
+section {
+  position: relative;
+  z-index: 1;
+}
+
+/* Ensure experience section background stays stable */
+section.red-theme {
+  position: relative;
+  z-index: 1;
+}
+
+section.red-theme img {
+  will-change: auto;
+  transition: opacity 0.3s ease-out;
 }
 
 /* performance helpers */
@@ -47,14 +118,10 @@ body.hero-overlay-active::before {
   will-change: transform, opacity;
   transform: translateZ(0);
 }
-.content-auto {
-  content-visibility: auto;
-  contain-intrinsic-size: 1000px 600px;
-}
 
 /* improve anchor scroll with fixed navbar */
 section[id] {
-  scroll-margin-top: 88px;
+  scroll-margin-top: 64px;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -89,6 +156,9 @@ section[id] {
 }
 
 @layer utilities {
+  .will-change-auto {
+    will-change: auto;
+  }
   .anime-gradient {
     background: radial-gradient(
         1200px 600px at 10% 10%,
@@ -137,15 +207,30 @@ section[id] {
 
   /* button component */
   .btn {
-    @apply flex gap-4 items-center justify-center cursor-pointer p-3 rounded-md bg-black-300  transition-all active:scale-95 text-white mx-auto;
+    @apply relative overflow-hidden flex gap-4 items-center justify-center cursor-pointer p-3 rounded-md bg-black-300 transition-all active:scale-95 text-white mx-auto;
   }
 
-  .btn-ping {
-    @apply animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75;
+  .btn::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(
+      120px 60px at var(--x, 50%) var(--y, 50%),
+      rgba(168, 85, 247, 0.25),
+      transparent 60%
+    );
+    opacity: 0;
+    transition: opacity 250ms ease, transform 350ms ease;
+    pointer-events: none;
   }
 
-  .btn-ping_dot {
-    @apply relative inline-flex rounded-full h-3 w-3 bg-green-500;
+  .btn:hover::before {
+    opacity: 1;
+  }
+  .btn:hover {
+    box-shadow: 0 0 0 1px rgba(168, 85, 247, 0.25),
+      0 0 24px rgba(168, 85, 247, 0.12);
+    transform: translateY(-1px);
   }
 
   /* hero section */
@@ -169,66 +254,9 @@ section[id] {
     @apply text-[#afb0b6] text-base font-generalsans;
   }
 
-  .copy-container {
-    @apply cursor-pointer flex justify-center items-center gap-2;
-  }
-
-  /* projects section  */
-  .arrow-btn {
-    @apply w-10 h-10 p-3 cursor-pointer active:scale-95 transition-all rounded-full arrow-gradient;
-  }
-
-  .tech-logo {
-    @apply w-10 h-10 rounded-md p-2 bg-neutral-100 bg-opacity-10 backdrop-filter backdrop-blur-lg flex justify-center items-center;
-  }
-
-  /* clients section */
-  .client-container {
-    @apply grid md:grid-cols-2 grid-cols-1 gap-5 mt-12;
-  }
-
-  .client-review {
-    @apply rounded-lg md:p-10 p-5 col-span-1;
-    background: rgba(20, 20, 24, 0.6);
-    backdrop-filter: blur(6px);
-    -webkit-backdrop-filter: blur(6px);
-  }
-
-  .client-content {
-    @apply flex lg:flex-row flex-col justify-between lg:items-center items-start gap-5 mt-7;
-  }
-
-  /*  work experience section */
-  .work-container {
-    @apply grid lg:grid-cols-3 grid-cols-1 gap-5 mt-12;
-  }
-
-  .work-canvas {
-    @apply col-span-1 rounded-lg bg-black-200 border border-black-300;
-  }
-
-  .work-content {
-    @apply col-span-2 rounded-lg border border-black-300;
-    background: rgba(20, 20, 24, 0.6);
-    backdrop-filter: blur(6px);
-    -webkit-backdrop-filter: blur(6px);
-  }
-
-  .work-content_container {
-    @apply grid grid-cols-[auto_1fr] items-start gap-5  transition-all ease-in-out duration-500 cursor-pointer hover:bg-black-300 rounded-lg sm:px-5 px-2.5;
-  }
-
-  .work-content_logo {
-    @apply rounded-3xl w-16 h-16 p-2 bg-black-600;
-  }
-
-  .work-content_bar {
-    @apply flex-1 w-0.5 mt-4 h-full bg-black-300 group-hover:bg-black-500 group-last:hidden;
-  }
-
   /* contact section */
   .contact-container {
-    @apply max-w-xl relative z-10 sm:px-10 px-5 mt-12;
+    @apply w-full max-w-2xl mx-auto;
   }
 
   .field-label {
@@ -258,14 +286,15 @@ section[id] {
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
   }
-}
 
-.waving-hand {
-  animation-name: wave-animation;
-  animation-duration: 2.5s;
-  animation-iteration-count: infinite;
-  transform-origin: 70% 70%;
-  display: inline-block;
+  /* track mouse for btn glow */
+  .btn {
+    position: relative;
+  }
+  .btn:hover {
+    --x: var(--mx, 50%);
+    --y: var(--my, 50%);
+  }
 }
 
 /* glass/neon cards */
@@ -281,45 +310,24 @@ section[id] {
     0 0 24px rgba(168, 85, 247, 0.12);
 }
 
-.arrow-gradient {
-  background-image: linear-gradient(
-    to right,
-    rgba(255, 255, 255, 0.1) 10%,
-    rgba(255, 255, 255, 0.000025) 50%,
-    rgba(255, 255, 255, 0.000025) 50%,
-    rgba(255, 255, 255, 0.025) 100%
-  );
-}
-
-/* red variant gradient for experience */
 .anime-gradient-red {
   background: radial-gradient(
-      1200px 600px at 15% 15%,
-      rgba(255, 60, 60, 0.1) 0%,
+      1200px 600px at 10% 10%,
+      rgba(255, 120, 120, 0.12) 0%,
       rgba(0, 0, 0, 0) 60%
     ),
     radial-gradient(
-      900px 500px at 85% 25%,
-      rgba(255, 120, 80, 0.1) 0%,
+      900px 500px at 90% 20%,
+      rgba(255, 80, 80, 0.12) 0%,
+      rgba(0, 0, 0, 0) 60%
+    ),
+    radial-gradient(
+      900px 500px at 20% 90%,
+      rgba(255, 100, 100, 0.1) 0%,
       rgba(0, 0, 0, 0) 60%
     );
 }
 
-/* red theme overrides */
-.red-theme .work-content,
-.red-theme .work-canvas {
-  border-color: #7f1d1d;
-}
-
-.red-theme .work-content_logo {
-  background-color: rgba(127, 29, 29, 0.5);
-}
-
-.red-theme .work-content_bar {
-  background-color: rgba(127, 29, 29, 0.5);
-}
-
-/* anime-style motion */
 @keyframes float {
   0% {
     transform: translateY(0px);
@@ -351,33 +359,7 @@ section[id] {
 
 /* neon focus ring */
 .focus-neon:focus {
-  box-shadow: 0 0 0 3px rgba(168, 85, 247, 0.5),
-    0 0 20px rgba(168, 85, 247, 0.6);
-}
-
-@keyframes wave-animation {
-  0% {
-    transform: rotate(0deg);
-  }
-  15% {
-    transform: rotate(14deg);
-  }
-  30% {
-    transform: rotate(-8deg);
-  }
-  40% {
-    transform: rotate(14deg);
-  }
-  50% {
-    transform: rotate(-4deg);
-  }
-  60% {
-    transform: rotate(10deg);
-  }
-  70% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(0deg);
-  }
+  box-shadow: 0 0 0 2px rgba(168, 85, 247, 0.25),
+    0 0 24px rgba(168, 85, 247, 0.12);
+  outline: none;
 }

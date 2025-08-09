@@ -25,7 +25,7 @@ const Projects = () => {
   return (
     <section className="anime-gradient rounded-2xl border border-black-300 p-4 sm:p-6 section-container">
       <h2 className="head-text">Featured Projects</h2>
-      <p className="text-white-600 mt-2">More on GitHub and LinkedIn. Images may be placeholders.</p>
+      <p className="text-white-600 mt-2">More on GitHub.....</p>
       <div className="grid md:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-5 mt-8">
         {projects.map((p, idx) => (
           <motion.a
@@ -40,9 +40,9 @@ const Projects = () => {
             transition={{ duration: 0.5, delay: idx * 0.05 }}
           >
             <div className="h-40 bg-black-300 relative overflow-hidden">
-              <img src="/assets/beautiful-anime-sakura-cityscape-cartoon-scene.jpg" alt="anime bg" className="section-overlay" />
+              <img src="/assets/beautiful-anime-sakura-cityscape-cartoon-scene.jpg" alt="anime bg" className="section-overlay" loading="lazy" decoding="async" />
               <div className="w-full h-full flex items-center justify-center ease-smooth group-hover:scale-[1.02]">
-                <img src={`/${p.image}`} alt={p.title} className={`object-contain transition-transform duration-300 group-hover:scale-110 drop-shadow-[0_0_12px_rgba(255,255,255,0.35)] ${p.title === 'Project1-Chess' ? 'w-28 h-28 sm:w-32 sm:h-32' : 'w-24 h-24'}`} />
+                <img src={`/${p.image}`} alt={p.title} loading="lazy" decoding="async" className={`object-contain transition-transform duration-300 group-hover:scale-110 drop-shadow-[0_0_12px_rgba(255,255,255,0.35)] ${p.title === 'Project1-Chess' ? 'w-28 h-28 sm:w-32 sm:h-32' : 'w-24 h-24'}`} />
               </div>
             </div>
             <div className="p-5">
