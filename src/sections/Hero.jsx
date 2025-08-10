@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { usePageTransition } from '../components/PageTransition'
 import { motion } from 'framer-motion'
+import { asset } from '../utils/asset'
 
 const title = "Hi, I'm Anam Neupane"
 
@@ -27,7 +28,7 @@ const Hero = () => {
     // Add smooth transition for overlay activation
     document.body.style.setProperty(
       '--hero-overlay-image',
-      "url('/assets/anime-character-near-galaxy-planet-illustration.jpg')"
+      `url('${asset('assets/anime-character-near-galaxy-planet-illustration.jpg')}')`
     )
     document.body.classList.add('hero-overlay-active')
     
@@ -128,7 +129,7 @@ const Hero = () => {
               }}
             >
               <span>View Projects</span>
-              <img src="/assets/right-arrow.png" alt="arrow" className="w-4 h-4" />
+              <img src={asset('assets/right-arrow.png')} alt="arrow" className="w-4 h-4" />
             </a>
             <a
               href="#experience"
@@ -170,15 +171,15 @@ const Hero = () => {
             aria-hidden
             // background container intentionally has no double-click; handled on parent grid
           >
-            <img src="/assets/anime-character-near-galaxy-planet-illustration.jpg" alt="background" className="w-full h-full object-cover" />
+            <img src={asset('assets/anime-character-near-galaxy-planet-illustration.jpg')} alt="background" className="w-full h-full object-cover" />
             <div className="absolute inset-0 pointer-events-none" style={{background:"radial-gradient(60% 60% at 50% 50%, rgba(0,0,0,0) 60%, rgba(0,0,0,0.5) 100%)"}} />
           </div>
-          <img src="/assets/ring.png" alt="rings" className="absolute -top-0 -right-0 sm:-top-0 sm:-right-10 w-56 sm:w-80 lg:w-80 opacity-35 animate-spin-slow hidden md:block" aria-hidden />
-          <img src="/assets/star1.png" alt="sparkle" className="absolute top-4 left-4 w-8 sm:w-10 opacity-70 animate-float hidden sm:block" aria-hidden />
+          <img src={asset('assets/ring.png')} alt="rings" className="absolute -top-0 -right-0 sm:-top-0 sm:-right-10 w-56 sm:w-80 lg:w-80 opacity-35 animate-spin-slow hidden md:block" aria-hidden />
+          <img src={asset('assets/star1.png')} alt="sparkle" className="absolute top-4 left-4 w-8 sm:w-10 opacity-70 animate-float hidden sm:block" aria-hidden />
 
           <div className="glass-card neon-border rounded-2xl p-4 md:p-6 flex flex-col sm:flex-row sm:flex-nowrap items-start sm:items-center gap-5 absolute left-4 right-4 bottom-4 sm:left-6 sm:right-6 sm:bottom-6">
             <img
-              src="/assets/profile.jpg"
+              src={asset('assets/profile.jpg')}
               alt="Anam Neupane"
               className="w-20 h-20 sm:w-24 sm:h-24 md:w-28 md:h-28 rounded-xl object-cover border border-black-300"
             />
@@ -187,13 +188,13 @@ const Hero = () => {
               <p className="text-white-600 break-words text-sm sm:text-base">Data Scientist • Python • ML • Statistics • Visualization</p>
               <div className="mt-3 flex gap-3">
                 <a className="social-icon" href="https://github.com/Anam-Neupane" target="_blank" rel="noreferrer">
-                  <img src="/assets/github.svg" alt="GitHub" className="w-5 h-5 lg:w-7 lg:h-10" />
+                  <img src={asset('assets/github.svg')} alt="GitHub" className="w-5 h-5 lg:w-7 lg:h-10" />
                 </a>
                 <a className="social-icon" href="https://www.linkedin.com/in/anam-neupane/" target="_blank" rel="noreferrer">
-                  <img src="/assets/linkedin.svg" alt="LinkedIn" className="w-5 h-5 invert" />
+                  <img src={asset('assets/linkedin.svg')} alt="LinkedIn" className="w-5 h-5 invert" />
                 </a>
                 <a className="social-icon" href="mailto:anamn037@gmail.com" target="_blank" rel="noreferrer">
-                  <img src="/assets/gmail.svg" alt="Gmail" className="w-5 h-5 " />
+                  <img src={asset('assets/gmail.svg')} alt="Gmail" className="w-5 h-5 " />
                 </a>
               </div>
             </div>

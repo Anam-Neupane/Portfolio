@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import { usePageTransition } from "../components/PageTransition"
+import { asset } from "../utils/asset"
 
 const links = [
   { href: "#home", label: "Home" },
@@ -130,7 +131,7 @@ const Navbar = () => {
             aria-controls="mobile-menu"
             title="Menu"
           >
-            <img src="/assets/menu.svg" alt="Menu" className="w-6 h-6" />
+            <img src={asset('assets/menu.svg')} alt="Menu" className="w-6 h-6" />
           </button>
         </div>
       </div>

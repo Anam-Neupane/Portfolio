@@ -2,6 +2,7 @@ import React, { useEffect, useMemo, useState } from 'react'
 import App from './App'
 import Preloader from './components/Preloader'
 import { PageTransitionProvider } from './components/PageTransition'
+import { asset } from './utils/asset'
 
 const preloadImages = (srcList) =>
   Promise.all(
@@ -20,11 +21,11 @@ const Root = () => {
 
   const assets = useMemo(
     () => [
-      '/assets/anime-character-near-galaxy-planet-illustration.jpg',
-      '/assets/anime-style-mythical-dragon-creature.jpg',
-      '/assets/profile.jpg',
-      '/assets/ring.png',
-      '/assets/star1.png',
+      asset('assets/anime-character-near-galaxy-planet-illustration.jpg'),
+      asset('assets/anime-style-mythical-dragon-creature.jpg'),
+      asset('assets/profile.jpg'),
+      asset('assets/ring.png'),
+      asset('assets/star1.png'),
     ],
     []
   )

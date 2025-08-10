@@ -1,5 +1,6 @@
 import { useState, useMemo } from 'react'
 import { motion } from 'framer-motion'
+import { asset } from '../utils/asset'
 
 const Contact = () => {
   const [form, setForm] = useState({ name: '', email: '', message: '' })
@@ -82,7 +83,7 @@ const Contact = () => {
         {errors.message && <p className="text-red-400 mt-1 text-sm">{errors.message}</p>}
         <button type="submit" className="field-btn mt-5" disabled={!form.name.trim() || !form.email.trim() || !form.message.trim()}>
           Send
-          <img src="/assets/right-arrow.png" alt="arrow" className="field-btn_arrow" />
+          <img src={asset('assets/right-arrow.png')} alt="arrow" className="field-btn_arrow" />
         </button>
         {status && <p className="text-green-400 mt-4">{status}</p>}
       </motion.form>

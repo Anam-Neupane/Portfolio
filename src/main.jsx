@@ -2,6 +2,7 @@ import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import Root from './Root.jsx'
 import './index.css'
+import { asset } from './utils/asset'
 
 // Always start at top/home on reload
 window.history.scrollRestoration = 'manual'
@@ -10,10 +11,10 @@ window.scrollTo(0, 0)
 // Warm cache for key images without blocking initial paint
 const preloadImages = async () => {
   const sources = [
-    '/assets/anime-style-mythical-dragon-creature.jpg', // Experience bg
-    '/assets/anime-character-near-galaxy-planet-illustration.jpg', // Hero bg
-    '/assets/ring.png',
-    '/assets/profile.jpg',
+    asset('assets/anime-style-mythical-dragon-creature.jpg'), // Experience bg
+    asset('assets/anime-character-near-galaxy-planet-illustration.jpg'), // Hero bg
+    asset('assets/ring.png'),
+    asset('assets/profile.jpg'),
   ]
 
   const cache = []

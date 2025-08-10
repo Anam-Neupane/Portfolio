@@ -1,4 +1,5 @@
 import { motion } from 'framer-motion'
+import { asset } from '../utils/asset'
 
 const About = () => {
   return (
@@ -18,7 +19,7 @@ const About = () => {
           frontend for building interactive dashboards.
         </p>
         <div className="mt-4 flex gap-3">
-          <a href="/assets/Anam-Neupane_CV.pdf" download className="btn bg-black-500">
+          <a href={asset('assets/Anam-Neupane_CV.pdf')} download className="btn bg-black-500">
             <span>Download CV</span>
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" className="w-4 h-4" fill="currentColor" aria-hidden>
               <path d="M12 3a1 1 0 0 1 1 1v8.586l2.293-2.293a1 1 0 1 1 1.414 1.414l-4 4a1 1 0 0 1-1.414 0l-4-4a1 1 0 1 1 1.414-1.414L11 12.586V4a1 1 0 0 1 1-1z"></path>

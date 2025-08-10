@@ -1,4 +1,5 @@
 import { motion } from 'framer-motion'
+import { asset } from '../utils/asset'
 
 const experiences = [
   {
@@ -24,7 +25,7 @@ const Experience = () => {
       {/* WOW background with anime dragon and parallax layers */}
       <div className="absolute inset-0">
         <img 
-          src="/assets/anime-style-mythical-dragon-creature.jpg" 
+          src={asset('assets/anime-style-mythical-dragon-creature.jpg')} 
           alt="anime dragon" 
           className="w-full h-full object-cover opacity-60" 
           loading="eager"
@@ -69,7 +70,7 @@ const Experience = () => {
                     <span className="absolute -left-1.5 top-2.5 sm:left-auto sm:-right-1.5 w-3 h-3 rounded-full bg-red-400 shadow-[0_0_0_3px_rgba(127,29,29,0.4)]" />
                     <div className="glass-card neon-border rounded-xl p-4 sm:p-5 max-w-xl backdrop-blur-md">
                       <div className="flex items-center gap-2">
-                        <img src="/assets/star.png" alt="logo" className="w-6 h-6 opacity-80" />
+                        <img src={asset('assets/star.png')} alt="logo" className="w-6 h-6 opacity-80" />
                         <h4 className="text-white text-lg font-semibold">{item.role}</h4>
                       </div>
                       <p className="text-white-600 mt-1">@ {item.company} · {item.period}</p>

@@ -1,5 +1,6 @@
 import React from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
+import { asset } from '../utils/asset'
 
 const Preloader = ({ ready }) => {
   return (
@@ -17,7 +18,7 @@ const Preloader = ({ ready }) => {
           <div className="relative w-[220px] h-[220px] flex items-center justify-center">
             {/* Rotating ring asset */}
             <img
-              src="/assets/ring.png"
+              src={asset('assets/ring.png')}
               alt="ring"
               className="absolute inset-0 m-auto w-[220px] h-[220px] opacity-60 animate-spin-slow"
               aria-hidden

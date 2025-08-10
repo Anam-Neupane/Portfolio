@@ -1,4 +1,5 @@
 import { motion } from 'framer-motion'
+import { asset } from '../utils/asset'
 
 const projects = [
   {
@@ -40,9 +41,9 @@ const Projects = () => {
             transition={{ duration: 0.5, delay: idx * 0.05 }}
           >
             <div className="h-40 bg-black-300 relative overflow-hidden">
-              <img src="/assets/beautiful-anime-sakura-cityscape-cartoon-scene.jpg" alt="anime bg" className="section-overlay" loading="lazy" decoding="async" />
+              <img src={asset('assets/beautiful-anime-sakura-cityscape-cartoon-scene.jpg')} alt="anime bg" className="section-overlay" loading="lazy" decoding="async" />
               <div className="w-full h-full flex items-center justify-center ease-smooth group-hover:scale-[1.02]">
-                <img src={`/${p.image}`} alt={p.title} loading="lazy" decoding="async" className={`object-contain transition-transform duration-300 group-hover:scale-110 drop-shadow-[0_0_12px_rgba(255,255,255,0.35)] ${p.title === 'Project1-Chess' ? 'w-28 h-28 sm:w-32 sm:h-32' : 'w-24 h-24'}`} />
+                <img src={asset(p.image)} alt={p.title} loading="lazy" decoding="async" className={`object-contain transition-transform duration-300 group-hover:scale-110 drop-shadow-[0_0_12px_rgba(255,255,255,0.35)] ${p.title === 'Project1-Chess' ? 'w-28 h-28 sm:w-32 sm:h-32' : 'w-24 h-24'}`} />
               </div>
             </div>
             <div className="p-5">

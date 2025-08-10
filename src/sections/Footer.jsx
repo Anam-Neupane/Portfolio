@@ -1,16 +1,18 @@
+import { asset } from '../utils/asset'
+
 const Footer = () => {
   return (
     <footer className="c-space py-12 border-t border-black-300 text-white-600 relative">
       <div className="max-w-7xl mx-auto flex flex-col items-center gap-5 text-center">
         <div className="flex items-center gap-3">
           <a className="social-icon" href="https://github.com/" target="_blank" rel="noreferrer">
-            <img src="/assets/github.svg" alt="GitHub" className="w-5 h-5 " />
+            <img src={asset('assets/github.svg')} alt="GitHub" className="w-5 h-5 " />
           </a>
           <a className="social-icon" href="https://twitter.com/" target="_blank" rel="noreferrer">
-            <img src="/assets/twitter.svg" alt="Twitter" className="w-5 h-5 " />
+            <img src={asset('assets/twitter.svg')} alt="Twitter" className="w-5 h-5 " />
           </a>
           <a className="social-icon" href="#contact">
-            <img src="/assets/gmail.svg" alt="Contact" className="w-5 h-5 " />
+            <img src={asset('assets/gmail.svg')} alt="Contact" className="w-5 h-5 " />
           </a>
         </div>
         <p>© {new Date().getFullYear()} Anam Neupane • All rights reserved</p>
