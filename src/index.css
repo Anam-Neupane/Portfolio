@@ -6,6 +6,11 @@
 
 @tailwind base;
 
+/* Global UI scale: approximate 110% browser zoom */
+html {
+  font-size: 110%;
+}
+
 /* default smooth scrolling disabled; we control programmatically to avoid double-anim */
 * {
   scroll-behavior: auto;
