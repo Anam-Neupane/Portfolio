@@ -124,9 +124,13 @@ const Navbar = () => {
 
           <button
             onClick={toggleMenu}
-            className="text-neutral-400 hover:text-white focus:outline-none sm:hidden flex"
+            className="text-neutral-400 hover:text-white focus:outline-none sm:hidden flex items-center justify-center w-10 h-10 rounded-md border border-black-300 bg-black-300"
             aria-label="Toggle menu"
+            aria-expanded={isOpen}
+            aria-controls="mobile-menu"
+            title="Menu"
           >
+            <img src="/assets/menu.svg" alt="Menu" className="w-6 h-6" />
           </button>
         </div>
       </div>
@@ -138,7 +142,8 @@ const Navbar = () => {
             animate={{ height: "auto", opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
             transition={{ duration: 0.25 }}
-            className="nav-sidebar"
+            className="nav-sidebar top-[64px]"
+            id="mobile-menu"
           >
             <div className="c-space pb-4">
               <div className="flex justify-end pb-2">

@@ -107,7 +107,7 @@ const Hero = () => {
             Double-click hero to set background
           </motion.div>
         )}
-        <div className="max-w-xl pr-2 sm:pr-4 md:pr-6">
+        <div className="relative max-w-none pr-8 sm:pr-12 md:pr-20 lg:pr-28 -mr-6 sm:-mr-12 md:-mr-16 z-20 overflow-visible">
           <motion.h1 variants={container} initial="hidden" animate="show" className="hero_tag text-white whitespace-nowrap">
             {title.split('').map((ch, idx) => (
               <motion.span key={idx} variants={child} className={`inline-block ${ch === ' ' ? 'mr-2' : ''}`}>
@@ -116,8 +116,7 @@ const Hero = () => {
             ))}
           </motion.h1>
           <p className="mt-6 text-white-600 text-lg max-w-xl">
-          Sophomore Computer Science Student | 
-          <br></br>Exploring AI & Machine Learning
+          Sophomore Computer Science Student |<br></br> Exploring AI & Machine Learning
           </p>
           <div className="mt-8 flex flex-wrap items-center gap-3 sm:gap-4">
             <a
@@ -177,15 +176,15 @@ const Hero = () => {
           <img src="/assets/ring.png" alt="rings" className="absolute -top-0 -right-0 sm:-top-0 sm:-right-10 w-56 sm:w-80 lg:w-80 opacity-35 animate-spin-slow hidden md:block" aria-hidden />
           <img src="/assets/star1.png" alt="sparkle" className="absolute top-4 left-4 w-8 sm:w-10 opacity-70 animate-float hidden sm:block" aria-hidden />
 
-          <div className="glass-card neon-border rounded-2xl p-4 md:p-6 flex items-center gap-5 absolute left-4 right-4 bottom-4 sm:left-6 sm:right-6 sm:bottom-6">
+          <div className="glass-card neon-border rounded-2xl p-4 md:p-6 flex flex-col sm:flex-row sm:flex-nowrap items-start sm:items-center gap-5 absolute left-4 right-4 bottom-4 sm:left-6 sm:right-6 sm:bottom-6">
             <img
               src="/assets/profile.jpg"
               alt="Anam Neupane"
               className="w-20 h-20 sm:w-24 sm:h-24 md:w-28 md:h-28 rounded-xl object-cover border border-black-300"
             />
-            <div>
+            <div className="min-w-0 w-full sm:flex-1">
               <h3 className="text-white text-2xl font-semibold">Anam Neupane</h3>
-              <p className="text-white-600">Data Scientist • Python • ML • Statistics • Visualization</p>
+              <p className="text-white-600 break-words text-sm sm:text-base">Data Scientist • Python • ML • Statistics • Visualization</p>
               <div className="mt-3 flex gap-3">
                 <a className="social-icon" href="https://github.com/Anam-Neupane" target="_blank" rel="noreferrer">
                   <img src="/assets/github.svg" alt="GitHub" className="w-5 h-5 lg:w-7 lg:h-10" />
