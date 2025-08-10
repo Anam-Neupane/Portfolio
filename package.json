@@ -1,6 +1,5 @@
 {
   "name": "website",
-  "homepage": "https://anam-neupane.github.io/Portfolio/",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -10,7 +9,7 @@
     "build:gh": "vite build --base=/Portfolio/",
     "lint": "eslint .",
     "preview": "vite preview",
-    "predeploy": "npm run build:gh",
+    "predeploy": "npm run build",
     "deploy": "gh-pages -d dist"
   },
   "dependencies": {
